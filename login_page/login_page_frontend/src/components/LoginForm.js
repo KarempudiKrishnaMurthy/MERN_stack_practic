@@ -97,7 +97,7 @@ const LoginForm = () => {
 
             if (res.data.token) {
                 localStorage.setItem("token", res.data.token);
-                navigate('/profile');
+                navigate('/dashboard');
             } else {
                 console.error("No token received!");
             }
