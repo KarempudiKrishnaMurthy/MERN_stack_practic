@@ -4,10 +4,12 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
     return (
-        <Router>
+        <AuthProvider>
+            <Router>
             <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/" element={<LoginForm />} />
@@ -15,6 +17,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
             </Routes>
         </Router>
+        </AuthProvider>   
     );
 }
 

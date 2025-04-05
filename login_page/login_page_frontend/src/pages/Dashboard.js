@@ -6,6 +6,7 @@ import {
   FaUsers, FaClipboardList, FaBell, FaCog, FaCalendarAlt, 
   FaUserFriends, FaChartLine, FaFileInvoiceDollar, FaShieldAlt 
 } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -13,13 +14,13 @@ const Dashboard = () => {
   const [notificationCount, setNotificationCount] = useState(3);
   const [weatherData, setWeatherData] = useState({ temp: "24°C", condition: "Sunny" });
   // Sample user data - in a real app, this would come from authentication
-  const [userData, setUserData] = useState({
-    name: "Sarah Johnson",
-    since: "2023",
-    role: "Resident",
-    avatar: "/images/avatar.jpg"
-  });
-  
+  // const [userData, setUserData] = useState({
+  //   name: "Sarah Johnson",
+  //   since: "2023",
+  //   role: "Resident",
+  //   avatar: "/images/avatar.jpg"
+  // });
+  const { user } = useAuth();
   // Simulate loading state
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,6 +28,7 @@ const Dashboard = () => {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
+  
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -77,11 +79,17 @@ const Dashboard = () => {
         >
           <div>
             <span className={`text-sm font-medium ${darkMode ? "text-emerald-400" : "text-emerald-600"}`}>Welcome back,</span>
-            <h1 className="text-3xl md:text-4xl font-bold">{userData.name}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">
+              {user ? user.username:'...'}
+              {/* dummy */}
+              </h1>
             <p className={`mt-2 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
               {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
               <span className="mx-2">•</span>
-              <span className={`${darkMode ? "text-emerald-400" : "text-emerald-600"}`}>{userData.role}</span>
+              <span className={`${darkMode ? "text-emerald-400" : "text-emerald-600"}`}>
+                {user ? user.username:'...'}
+                {/* dummy */}
+                </span>
             </p>
           </div>
           <div className={`mt-4 md:mt-0 flex items-center px-4 py-2 rounded-full ${darkMode ? "bg-gray-800" : "bg-white"} shadow-md`}>
@@ -310,5 +318,6 @@ const Dashboard = () => {
     </div>
   );
 };
+
 
 export default Dashboard;
