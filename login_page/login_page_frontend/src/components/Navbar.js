@@ -7,6 +7,7 @@ import {
   FaPhone, FaUserFriends
 } from "react-icons/fa";
 import { Badge, Avatar, IconButton, Tooltip } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,8 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     role: "Resident",
     avatar: "/images/avatar.jpg"
   });
+  const { user } = useAuth();
+
 
   // Detect scroll position for navbar appearance change
   useEffect(() => {
@@ -154,17 +157,17 @@ const Navbar = ({ darkMode, setDarkMode }) => {
               </Tooltip>
 
               {/* User Profile */}
-              <Tooltip title={userData.name} arrow>
+              <Tooltip title={user ? user.username:'...'} arrow>
                 <div className="ml-1 flex items-center">
                   <Avatar 
                     src={userData.avatar} 
-                    alt={userData.name} 
+                    alt={user ? user.username:'...'} 
                     className="w-9 h-9 border-2 border-white"
                   />
                   <span className={`ml-2 font-medium hidden lg:block ${
                     scrolled && !darkMode ? "text-gray-800" : "text-white"
                   }`}>
-                    {userData.name}
+                    {user ? user.username:'...'}
                   </span>
                 </div>
               </Tooltip>
@@ -252,11 +255,11 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                   <div className="flex items-center">
                     <Avatar 
                       src={userData.avatar} 
-                      alt={userData.name} 
+                      alt={user ? user.username:'...'} 
                       className="w-8 h-8 mr-3"
                     />
                     <div>
-                      <p className="font-medium">{userData.name}</p>
+                      <p className="font-medium">{user ? user.username:'...'}</p>
                       <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}>{userData.role}</p>
                     </div>
                   </div>
