@@ -23,9 +23,31 @@ const authenticateToken = (req, res, next) => {
 };
 
 // ✅ Register Route
+// router.post('/register', async (req, res) => {
+//     try {
+//         const { username, password } = req.body;
+
+//         let user = await User.findOne({ username });
+//         if (user) return res.status(400).json({ msg: "User already exists" });
+
+//         // Hash password
+//         const salt = await bcrypt.genSalt(10);
+//         const hashedPassword = await bcrypt.hash(password, salt);
+
+//         user = new User({ username, password: hashedPassword, loginTimestamps: [], logoutTimestamps: [] });
+//         await user.save();
+
+//         return res.status(201).json({ msg: "User registered successfully" });
+//     } catch (err) {
+//         console.error(err);
+//         return res.status(500).json({ msg: "Server error" });
+//     }
+// });
+
+// ✅ New Register Route (Updated)
 router.post('/register', async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, phoneNumber, email, blockName, flatNumber, alternatePhone, socialLinks } = req.body;
 
         let user = await User.findOne({ username });
         if (user) return res.status(400).json({ msg: "User already exists" });
@@ -34,7 +56,19 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        user = new User({ username, password: hashedPassword, loginTimestamps: [], logoutTimestamps: [] });
+        user = new User({
+            username,
+            password: hashedPassword,
+            phoneNumber,
+            email,
+            blockName,
+            flatNumber,
+            alternatePhone,
+            socialLinks,
+            loginTimestamps: [],
+            logoutTimestamps: []
+        });
+
         await user.save();
 
         return res.status(201).json({ msg: "User registered successfully" });
@@ -43,6 +77,7 @@ router.post('/register', async (req, res) => {
         return res.status(500).json({ msg: "Server error" });
     }
 });
+
 
 // ✅ Login Route (JWT Token)
 router.post('/login', async (req, res) => {
